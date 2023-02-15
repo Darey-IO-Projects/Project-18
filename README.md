@@ -1,1 +1,4 @@
-# Project18
+# RCR TERRAFORM ARCHITECTURE
+#
+
+![](./architecture)
