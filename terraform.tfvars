@@ -1,4 +1,4 @@
-region = "us-east-1"
+region = "eu-west-2"
 
 ami = ""
 
@@ -12,9 +12,9 @@ preferred_number_of_public_subnets = 2
 
 preferred_number_of_private_subnets = 4
 
-account_no = 736239398496
+account_no = 571131858325
 
-keypair = "darey_key"
+keypair = "mshallom"
 
 db-username = "mshallom"
 
