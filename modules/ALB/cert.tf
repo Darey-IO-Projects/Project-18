@@ -1,12 +1,12 @@
-# Create the certificate using a wildcard for all the domains created in shallom.tk
+# Create the certificate using a wildcard for all the domains created in mshallom.click
 resource "aws_acm_certificate" "shallom" {
-  domain_name       = "*.shallom.tk"
+  domain_name       = "*.mshallom.click"
   validation_method = "DNS"
 }
 
 # calling the hosted zone
 data "aws_route53_zone" "shallom" {
-  name         = "shallom.tk"
+  name         = "mshallom.click"
   private_zone = false
 }
 
@@ -37,7 +37,7 @@ resource "aws_acm_certificate_validation" "shallom" {
 # create records for tooling
 resource "aws_route53_record" "tooling" {
   zone_id = data.aws_route53_zone.shallom.zone_id
-  name    = "tooling.shallom.tk"
+  name    = "tooling.mshallom.click"
   type    = "A"
 
   alias {
@@ -50,7 +50,7 @@ resource "aws_route53_record" "tooling" {
 # create records for wordpress
 resource "aws_route53_record" "wordpress" {
   zone_id = data.aws_route53_zone.shallom.zone_id
-  name    = "wordpress.shallom.tk"
+  name    = "wordpress.mshallom.click"
   type    = "A"
 
   alias {

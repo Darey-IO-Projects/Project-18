@@ -4,26 +4,26 @@
 #---------------------------------
 ####################################################################################
 resource "aws_lb" "ext-alb" {
-  name     = "ext-alb"
+  name     = var.name
   internal = false
   security_groups = [
-    aws_security_group.ext-alb-sg.id,
+    var.public-sg
   ]
 
   subnets = [
-    aws_subnet.public[0].id,
-    aws_subnet.public[1].id
+    var.public-sbn-1,
+    var.public-sbn-2
   ]
 
   tags = merge(
     var.tags,
     {
-      Name = "RCR-ext-alb"
+      Name = var.name
     },
   )
 
-  ip_address_type    = "ipv4"
-  load_balancer_type = "application"
+  ip_address_type    = var.ip_address_type
+  load_balancer_type = var.load_balancer_type
 }
 
 
@@ -40,7 +40,7 @@ resource "aws_lb_target_group" "nginx-tgt" {
   port        = 443
   protocol    = "HTTPS"
   target_type = "instance"
-  vpc_id      = aws_vpc.main.id
+  vpc_id      = var.vpc_id
 }
 
 resource "aws_lb_listener" "nginx-listner" {
@@ -64,12 +64,12 @@ resource "aws_lb" "ialb" {
   name     = "ialb"
   internal = true
   security_groups = [
-    aws_security_group.int-alb-sg.id,
+    var.private-sg
   ]
 
   subnets = [
-    aws_subnet.private[0].id,
-    aws_subnet.private[1].id
+    var.private-sbn-1,
+    var.private-sbn-2
   ]
 
   tags = merge(
@@ -79,8 +79,8 @@ resource "aws_lb" "ialb" {
     },
   )
 
-  ip_address_type    = "ipv4"
-  load_balancer_type = "application"
+  ip_address_type    = var.ip_address_type
+  load_balancer_type = var.load_balancer_type
 }
 
 # --- target group  for wordpress -------
@@ -99,7 +99,7 @@ resource "aws_lb_target_group" "wordpress-tgt" {
   port        = 443
   protocol    = "HTTPS"
   target_type = "instance"
-  vpc_id      = aws_vpc.main.id
+  vpc_id      = var.vpc_id
 }
 
 # --- target group for tooling -------
@@ -118,7 +118,7 @@ resource "aws_lb_target_group" "tooling-tgt" {
   port        = 443
   protocol    = "HTTPS"
   target_type = "instance"
-  vpc_id      = aws_vpc.main.id
+  vpc_id      = var.vpc_id
 }
 
 # For this aspect a single listener was created for the wordpress which is default,
